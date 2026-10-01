@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Dashboard | Mobility Operations Intelligence</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="nav-container">
+
+        <a href="/" class="brand">
+            Mobility Intelligence
+        </a>
+
+        <div class="nav-links">
+
+            <a href="/upload">Upload Data</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/drivers">Drivers</a>
+            <a href="/zones">Zones</a>
+            <a href="/cancellations">Cancellations</a>
+            <a href="/utilization">Utilisation</a>
+            <a href="/anomalies">Anomalies</a>
+            <a href="/search">Search</a>
+            <a href="/insights">Insights</a>
+            <a href="/top-k">Top-K</a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+    <h1>Operations Dashboard</h1>
+
+    <p>Mobility marketplace performance overview</p>
+
+
+    <div class="dashboard-grid">
+
+        <div class="card">
+            <h3>Total Drivers</h3>
+            <p>{{ metrics.total_drivers }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Active Drivers</h3>
+            <p>{{ metrics.active_drivers }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Riders</h3>
+            <p>{{ metrics.total_riders }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Trips</h3>
+            <p>{{ metrics.total_trips }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Completed Trips</h3>
+            <p>{{ metrics.completed_trips }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Cancelled Trips</h3>
+            <p>{{ metrics.cancelled_trips }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Completion Rate</h3>
+            <p>{{ metrics.completion_rate }}%</p>
+        </div>
+
+        <div class="card">
+            <h3>Cancellation Rate</h3>
+            <p>{{ metrics.cancellation_rate }}%</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Revenue</h3>
+            <p>₹{{ metrics.total_revenue }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Average Fare</h3>
+            <p>₹{{ metrics.average_fare }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Average Distance</h3>
+            <p>{{ metrics.average_distance }} km</p>
+        </div>
+
+        <div class="card">
+            <h3>Average Trip Duration</h3>
+            <p>{{ metrics.average_duration }} min</p>
+        </div>
+
+    </div>
+
+
+    <br>
+
+    <a href="/" class="button">
+        Back to Home
+    </a>
+
+</div>
+
+</body>
+
+</html>

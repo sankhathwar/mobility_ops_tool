@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mobility Operations Intelligence</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- Navigation Bar -->
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <a href="/" class="brand">
+                Mobility Intelligence
+            </a>
+
+
+            <div class="nav-links">
+
+                <a href="/upload">
+                    Upload Data
+                </a>
+
+                <a href="/dashboard">
+                    Dashboard
+                </a>
+
+                <a href="/top-k">Top-K</a>
+
+                <a href="/drivers">
+                    Drivers
+                </a>
+
+                <a href="/zones">
+                    Zones
+                </a>
+
+                <a href="/cancellations">
+                    Cancellations
+                </a>
+
+                <a href="/utilization">
+                    Utilisation
+                </a>
+
+                <a href="/anomalies">
+                    Anomalies
+                </a>
+
+                <a href="/search">
+                    Search
+                </a>
+
+                <a href="/insights">
+                    Insights
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Main Content -->
+
+    <div class="container">
+
+        <h1>
+            Mobility Operations Intelligence Engine
+        </h1>
+
+
+        <p>
+            Analyse drivers, trips, zones, cancellations,
+            utilisation and operational anomalies.
+        </p>
+
+
+        <div class="section">
+
+            <h2>
+                Data Management
+            </h2>
+
+            <p>
+                Upload mobility datasets and validate them
+                before running the analytics engine.
+            </p>
+
+            <a href="/upload" class="button">
+                Upload Mobility Data
+            </a>
+
+        </div>
+
+
+        <div class="section">
+
+            <h2>
+                Operations Dashboard
+            </h2>
+
+            <p>
+                View key operational performance indicators
+                generated from the mobility dataset.
+            </p>
+
+            <a href="/dashboard" class="button">
+                Open Dashboard
+            </a>
+
+        </div>
+
+
+        <div class="section">
+
+            <h2>
+                Analytics Modules
+            </h2>
+
+            <p>
+                Explore driver performance, zone demand,
+                cancellations, utilisation, anomalies,
+                search and operational insights.
+            </p>
+
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

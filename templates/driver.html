@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Driver Analytics | Mobility Intelligence</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+
+        <a href="/" class="brand">
+            Mobility Intelligence
+        </a>
+
+        <div class="nav-links">
+            <a href="/upload">Upload Data</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/drivers">Drivers</a>
+            <a href="/top-k">Top-K</a>
+            <a href="/zones">Zones</a>
+            <a href="/cancellations">Cancellations</a>
+            <a href="/utilization">Utilisation</a>
+            <a href="/anomalies">Anomalies</a>
+            <a href="/search">Search</a>
+            <a href="/insights">Insights</a>
+        </div>
+
+    </div>
+</nav>
+
+
+<div class="container">
+
+    <h1>Driver Analytics</h1>
+
+    <p>
+        Analyse driver profiles, performance, revenue,
+        cancellation behaviour and utilisation.
+    </p>
+
+
+    <!-- Driver Selection -->
+
+    <div class="section">
+
+        <h2>Select Driver</h2>
+
+        <form method="GET" action="/drivers">
+
+            <label for="driver_id">
+                Driver:
+            </label>
+
+            <select name="driver_id" id="driver_id">
+
+                <option value="">
+                    -- Select Driver --
+                </option>
+
+                {% for driver in drivers %}
+
+                <option
+                    value="{{ driver.driver_id }}"
+                    {% if selected_driver
+                       and selected_driver.driver_id == driver.driver_id %}
+                    selected
+                    {% endif %}
+                >
+                    {{ driver.driver_id }} - {{ driver.driver_name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+            <button type="submit">
+                View Driver
+            </button>
+
+        </form>
+
+    </div>
+
+
+    {% if selected_driver %}
+
+    <!-- Driver Profile -->
+
+    <div class="section">
+
+        <h2>Driver Profile</h2>
+
+        <div class="card">
+
+            <p>
+                <strong>Driver ID:</strong>
+                {{ selected_driver.driver_id }}
+            </p>
+
+            <p>
+                <strong>Name:</strong>
+                {{ selected_driver.driver_name }}
+            </p>
+
+            <p>
+                <strong>City:</strong>
+                {{ selected_driver.city }}
+            </p>
+
+            <p>
+                <strong>Vehicle:</strong>
+                {{ selected_driver.vehicle_type }}
+            </p>
+
+            <p>
+                <strong>Rating:</strong>
+                {{ selected_driver.rating }}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                {{ selected_driver.status }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Driver Performance -->
+
+    <div class="section">
+
+        <h2>Driver Performance</h2>
+
+        <div class="dashboard-grid">
+
+            <div class="card">
+                <h3>Total Trips</h3>
+                <p>{{ selected_metrics.total_trips }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Completed Trips</h3>
+                <p>{{ selected_metrics.completed_trips }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Cancelled Trips</h3>
+                <p>{{ selected_metrics.cancelled_trips }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Completion Rate</h3>
+                <p>{{ selected_metrics.completion_rate }}%</p>
+            </div>
+
+            <div class="card">
+                <h3>Cancellation Rate</h3>
+                <p>{{ selected_metrics.cancellation_rate }}%</p>
+            </div>
+
+            <div class="card">
+                <h3>Revenue</h3>
+                <p>₹{{ selected_metrics.revenue }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Average Fare</h3>
+                <p>₹{{ selected_metrics.average_fare }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Average Distance</h3>
+                <p>{{ selected_metrics.average_distance }} km</p>
+            </div>
+
+            <div class="card">
+                <h3>Average Fare / KM</h3>
+                <p>₹{{ selected_metrics.average_fare_per_km }}</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- Top Drivers -->
+
+    <div class="section">
+
+        <h2>Top Drivers by Completed Trips</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Driver</th>
+                    <th>Name</th>
+                    <th>Completed Trips</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for driver in top_drivers %}
+
+                <tr>
+                    <td>{{ driver.driver_id }}</td>
+                    <td>{{ driver.driver_name }}</td>
+                    <td>{{ driver.completed_trips }}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- Highest Revenue -->
+
+    <div class="section">
+
+        <h2>Highest Revenue Drivers</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Driver</th>
+                    <th>Name</th>
+                    <th>Revenue</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for driver in highest_revenue %}
+
+                <tr>
+                    <td>{{ driver.driver_id }}</td>
+                    <td>{{ driver.driver_name }}</td>
+                    <td>₹{{ driver.revenue }}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- Lowest Cancellation -->
+
+    <div class="section">
+
+        <h2>Lowest Cancellation Drivers</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Driver</th>
+                    <th>Name</th>
+                    <th>Cancellation Rate</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for driver in lowest_cancellation %}
+
+                <tr>
+                    <td>{{ driver.driver_id }}</td>
+                    <td>{{ driver.driver_name }}</td>
+                    <td>{{ driver.cancellation_rate }}%</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- Highest Utilisation -->
+
+    <div class="section">
+
+        <h2>Highest Utilisation Drivers</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Driver</th>
+                    <th>Name</th>
+                    <th>Utilisation</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for driver in highest_utilization %}
+
+                <tr>
+                    <td>{{ driver.driver_id }}</td>
+                    <td>{{ driver.driver_name }}</td>
+                    <td>{{ driver.utilization }}%</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- Drivers Requiring Attention -->
+
+    <div class="section">
+
+        <h2>Drivers Requiring Operational Attention</h2>
+
+        {% if attention_drivers %}
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Driver</th>
+                    <th>Name</th>
+                    <th>Issues</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for driver in attention_drivers %}
+
+                <tr>
+                    <td>{{ driver.driver_id }}</td>
+                    <td>{{ driver.driver_name }}</td>
+                    <td>
+                        {{ driver.issues | join(", ") }}
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <p>No drivers currently require operational attention.</p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Operational Insights | Mobility Intelligence</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="nav-container">
+
+        <a href="/" class="brand">
+            Mobility Intelligence
+        </a>
+
+        <div class="nav-links">
+
+            <a href="/upload">Upload Data</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/drivers">Drivers</a>
+            <a href="/zones">Zones</a>
+            <a href="/cancellations">Cancellations</a>
+            <a href="/utilization">Utilisation</a>
+            <a href="/anomalies">Anomalies</a>
+            <a href="/search">Search</a>
+            <a href="/insights">Insights</a>
+            <a href="/top-k">Top-K</a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+    <h1>Operational Insights</h1>
+
+    <p>
+        Dynamically generated insights from the mobility dataset.
+    </p>
+
+
+    <div class="dashboard-grid">
+
+        <div class="card">
+
+            <h3>Highest Cancellation Zone</h3>
+
+            <p>
+                {{ insights.highest_cancellation_zone }}
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Peak Demand Period</h3>
+
+            <p>
+                {{ insights.peak_demand_period }}
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Low Utilisation Drivers</h3>
+
+            <p>
+                {{ insights.low_utilization_count }}
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Largest Cancellation Category</h3>
+
+            <p>
+                {{ insights.largest_cancellation_category }}
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Total Anomalies</h3>
+
+            <p>
+                {{ insights.anomaly_count }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>What These Insights Mean</h2>
+
+        <table>
+
+            <tr>
+                <th>Insight</th>
+                <th>Value</th>
+            </tr>
+
+            <tr>
+                <td>Highest Cancellation Zone</td>
+                <td>
+                    {{ insights.highest_cancellation_zone }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>Peak Demand Period</td>
+                <td>
+                    {{ insights.peak_demand_period }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>Low Utilisation Count</td>
+                <td>
+                    {{ insights.low_utilization_count }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>Largest Cancellation Category</td>
+                <td>
+                    {{ insights.largest_cancellation_category }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>Total Anomalies</td>
+                <td>
+                    {{ insights.anomaly_count }}
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

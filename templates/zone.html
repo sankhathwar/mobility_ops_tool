@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Zone Analytics | Mobility Intelligence</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+
+        <a href="/" class="brand">
+            Mobility Intelligence
+        </a>
+
+        <div class="nav-links">
+            <a href="/upload">Upload Data</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/drivers">Drivers</a>
+            <a href="/top-k">Top-K</a>
+            <a href="/zones">Zones</a>
+            <a href="/cancellations">Cancellations</a>
+            <a href="/utilization">Utilisation</a>
+            <a href="/anomalies">Anomalies</a>
+            <a href="/search">Search</a>
+            <a href="/insights">Insights</a>
+        </div>
+
+    </div>
+</nav>
+
+
+<div class="container">
+
+    <h1>Zone Analytics</h1>
+
+    <p>
+        Analyse marketplace demand and trip performance
+        by city and pickup zone.
+    </p>
+
+
+    <div class="section">
+
+        <h2>Select City and Zone</h2>
+
+        <form method="GET" action="/zones">
+
+            <label for="city">
+                City:
+            </label>
+
+            <select name="city" id="city" required>
+
+                <option value="">
+                    -- Select City --
+                </option>
+
+                {% for city in cities %}
+
+                <option
+                    value="{{ city }}"
+                    {% if selected_city == city %}
+                    selected
+                    {% endif %}
+                >
+                    {{ city }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <label for="zone">
+                Zone:
+            </label>
+
+            <select name="zone" id="zone" required>
+
+                <option value="">
+                    -- Select Zone --
+                </option>
+
+                {% for zone in zones %}
+
+                <option
+                    value="{{ zone }}"
+                    {% if selected_zone == zone %}
+                    selected
+                    {% endif %}
+                >
+                    {{ zone }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <button type="submit">
+                Analyse Zone
+            </button>
+
+        </form>
+
+    </div>
+
+
+    {% if zone_metrics %}
+
+    <div class="section">
+
+        <h2>
+            {{ zone_metrics.zone }}
+        </h2>
+
+        <p>
+            City:
+            <strong>{{ zone_metrics.city }}</strong>
+        </p>
+
+
+        <div class="dashboard-grid">
+
+            <div class="card">
+                <h3>Total Requests</h3>
+                <p>{{ zone_metrics.total_requests }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Completed Trips</h3>
+                <p>{{ zone_metrics.completed_trips }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Cancelled Trips</h3>
+                <p>{{ zone_metrics.cancelled_trips }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Completion Rate</h3>
+                <p>{{ zone_metrics.completion_rate }}%</p>
+            </div>
+
+            <div class="card">
+                <h3>Cancellation Rate</h3>
+                <p>{{ zone_metrics.cancellation_rate }}%</p>
+            </div>
+
+            <div class="card">
+                <h3>Revenue</h3>
+                <p>₹{{ zone_metrics.revenue }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Average Fare</h3>
+                <p>₹{{ zone_metrics.average_fare }}</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>Demand Distribution by Time Slot</h2>
+
+        <p>
+            Number of trip requests received during each period.
+        </p>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Time Slot</th>
+                    <th>Requests</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for time_slot, count in
+                   zone_metrics.demand_distribution.items() %}
+
+                <tr>
+                    <td>{{ time_slot }}</td>
+                    <td>{{ count }}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {% else %}
+
+    <div class="section">
+
+        <h2>No Zone Selected</h2>
+
+        <p>
+            Select a city and zone above to view operational analytics.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>

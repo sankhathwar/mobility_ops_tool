@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Search | Mobility Intelligence</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+
+        <a href="/" class="brand">
+            Mobility Intelligence
+        </a>
+
+        <div class="nav-links">
+            <a href="/upload">Upload Data</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/drivers">Drivers</a>
+            <a href="/top-k">Top-K</a>
+            <a href="/zones">Zones</a>
+            <a href="/cancellations">Cancellations</a>
+            <a href="/utilization">Utilisation</a>
+            <a href="/anomalies">Anomalies</a>
+            <a href="/search">Search</a>
+            <a href="/insights">Insights</a>
+        </div>
+
+    </div>
+</nav>
+
+
+<div class="container">
+
+    <h1>Search Engine</h1>
+
+    <p>
+        Search drivers, trips and zones using dictionary-based
+        indexed lookup.
+    </p>
+
+
+    <!-- Search Form -->
+
+    <div class="section">
+
+        <h2>Search Records</h2>
+
+        <form method="GET" action="/search">
+
+            <label for="type">
+                Search Type:
+            </label>
+
+            <select name="type" id="type">
+
+                <option
+                    value="driver"
+                    {% if search_type == "driver" %}
+                    selected
+                    {% endif %}
+                >
+                    Driver
+                </option>
+
+                <option
+                    value="trip"
+                    {% if search_type == "trip" %}
+                    selected
+                    {% endif %}
+                >
+                    Trip
+                </option>
+
+                <option
+                    value="zone"
+                    {% if search_type == "zone" %}
+                    selected
+                    {% endif %}
+                >
+                    Zone
+                </option>
+
+            </select>
+
+
+            <label for="id">
+                ID:
+            </label>
+
+            <input
+                type="text"
+                name="id"
+                id="id"
+                value="{{ search_id or '' }}"
+                placeholder="e.g. D101"
+                required
+            >
+
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- Search Result -->
+
+    {% if search_type and search_id %}
+
+    <div class="section">
+
+        <h2>Search Result</h2>
+
+
+        {% if result %}
+
+
+            <!-- Driver Result -->
+
+            {% if search_type == "driver" %}
+
+            <div class="card">
+
+                <h3>Driver Details</h3>
+
+                <p>
+                    <strong>Driver ID:</strong>
+                    {{ result.driver_id }}
+                </p>
+
+                <p>
+                    <strong>Name:</strong>
+                    {{ result.driver_name }}
+                </p>
+
+                <p>
+                    <strong>City:</strong>
+                    {{ result.city }}
+                </p>
+
+                <p>
+                    <strong>Vehicle:</strong>
+                    {{ result.vehicle_type }}
+                </p>
+
+                <p>
+                    <strong>Rating:</strong>
+                    {{ result.rating }}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    {{ result.status }}
+                </p>
+
+            </div>
+
+
+            <!-- Trip Result -->
+
+            {% elif search_type == "trip" %}
+
+            <div class="card">
+
+                <h3>Trip Details</h3>
+
+                <p>
+                    <strong>Trip ID:</strong>
+                    {{ result.trip_id }}
+                </p>
+
+                <p>
+                    <strong>Driver ID:</strong>
+                    {{ result.driver_id }}
+                </p>
+
+                <p>
+                    <strong>Rider ID:</strong>
+                    {{ result.rider_id }}
+                </p>
+
+                <p>
+                    <strong>City:</strong>
+                    {{ result.city }}
+                </p>
+
+                <p>
+                    <strong>Pickup Zone:</strong>
+                    {{ result.pickup_zone }}
+                </p>
+
+                <p>
+                    <strong>Drop Zone:</strong>
+                    {{ result.drop_zone }}
+                </p>
+
+                <p>
+                    <strong>Distance:</strong>
+                    {{ result.distance_km }} km
+                </p>
+
+                <p>
+                    <strong>Fare:</strong>
+                    ₹{{ result.fare }}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    {{ result.status }}
+                </p>
+
+                {% if result.cancellation_reason %}
+
+                <p>
+                    <strong>Cancellation Reason:</strong>
+                    {{ result.cancellation_reason }}
+                </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- Zone Result -->
+
+            {% elif search_type == "zone" %}
+
+            <div class="card">
+
+                <h3>Zone Details</h3>
+
+                <p>
+                    <strong>Zone ID:</strong>
+                    {{ result.zone_id }}
+                </p>
+
+                <p>
+                    <strong>City:</strong>
+                    {{ result.city }}
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+        {% else %}
+
+        <div class="card">
+
+            <h3>No Result Found</h3>
+
+            <p>
+                No {{ search_type }} was found for
+                <strong>{{ search_id }}</strong>.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>

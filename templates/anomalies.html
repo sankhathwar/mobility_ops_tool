@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Anomaly Detection | Mobility Intelligence</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+
+        <a href="/" class="brand">
+            Mobility Intelligence
+        </a>
+
+        <div class="nav-links">
+            <a href="/upload">Upload Data</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/drivers">Drivers</a>
+            <a href="/top-k">Top-K</a>
+            <a href="/zones">Zones</a>
+            <a href="/cancellations">Cancellations</a>
+            <a href="/utilization">Utilisation</a>
+            <a href="/anomalies">Anomalies</a>
+            <a href="/search">Search</a>
+            <a href="/insights">Insights</a>
+        </div>
+
+    </div>
+</nav>
+
+
+<div class="container">
+
+    <h1>Anomaly Detection</h1>
+
+    <p>
+        Identify unusual trip patterns and driver behaviour
+        using rule-based anomaly detection.
+    </p>
+
+
+    <!-- Trip Anomaly Summary -->
+
+    <div class="section">
+
+        <h2>Trip Anomalies</h2>
+
+        <div class="dashboard-grid">
+
+            <div class="card">
+                <h3>Negative Fares</h3>
+                <p>{{ anomalies.negative_fares|length }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Zero Distance</h3>
+                <p>{{ anomalies.zero_distance|length }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Invalid Timestamps</h3>
+                <p>{{ anomalies.invalid_timestamps|length }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Long Duration</h3>
+                <p>{{ anomalies.long_duration|length }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Unknown Drivers</h3>
+                <p>{{ anomalies.unknown_drivers|length }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Unusual Fares</h3>
+                <p>{{ anomalies.unusual_fares|length }}</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Driver Anomaly Summary -->
+
+    <div class="section">
+
+        <h2>Driver Anomalies</h2>
+
+        <div class="dashboard-grid">
+
+            <div class="card">
+                <h3>High Cancellation Rate</h3>
+                <p>{{ anomalies.high_cancellation_rate|length }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Low Utilisation</h3>
+                <p>{{ anomalies.low_utilization|length }}</p>
+            </div>
+
+            <div class="card">
+                <h3>High Trip Count</h3>
+                <p>{{ anomalies.high_trip_count|length }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Low Rating</h3>
+                <p>{{ anomalies.low_rating|length }}</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Driver Anomaly Details -->
+
+    <div class="section">
+
+        <h2>High Cancellation Rate</h2>
+
+        {% if anomalies.high_cancellation_rate %}
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Driver ID</th>
+                    <th>Cancellation Rate</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for item in anomalies.high_cancellation_rate %}
+
+                <tr>
+                    <td>{{ item.driver_id }}</td>
+                    <td>{{ item.cancellation_rate }}%</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <p>No drivers exceeded the cancellation-rate threshold.</p>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>Low Utilisation</h2>
+
+        {% if anomalies.low_utilization %}
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Driver ID</th>
+                    <th>Utilisation</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for item in anomalies.low_utilization %}
+
+                <tr>
+                    <td>{{ item.driver_id }}</td>
+                    <td>{{ item.utilization }}%</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <p>No drivers were below the utilisation threshold.</p>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>High Trip Count</h2>
+
+        {% if anomalies.high_trip_count %}
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Driver ID</th>
+                    <th>Trip Count</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for item in anomalies.high_trip_count %}
+
+                <tr>
+                    <td>{{ item.driver_id }}</td>
+                    <td>{{ item.trip_count }}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <p>No drivers exceeded the high trip-count threshold.</p>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>Low Rating</h2>
+
+        {% if anomalies.low_rating %}
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Driver ID</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for item in anomalies.low_rating %}
+
+                <tr>
+                    <td>{{ item.driver_id }}</td>
+                    <td>{{ item.rating }}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <p>No drivers were below the rating threshold.</p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- Trip Anomaly Details -->
+
+    <div class="section">
+
+        <h2>Trip Anomaly Details</h2>
+
+
+        {% if anomalies.negative_fares %}
+
+        <h3>Negative Fares</h3>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Trip ID</th>
+                    <th>Fare</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for trip in anomalies.negative_fares %}
+
+                <tr>
+                    <td>{{ trip.trip_id }}</td>
+                    <td>{{ trip.fare }}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% endif %}
+
+
+        {% if anomalies.zero_distance %}
+
+        <h3>Zero Distance</h3>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Trip ID</th>
+                    <th>Distance (km)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for trip in anomalies.zero_distance %}
+
+                <tr>
+                    <td>{{ trip.trip_id }}</td>
+                    <td>{{ trip.distance_km }}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% endif %}
+
+
+        {% if anomalies.invalid_timestamps %}
+
+        <h3>Invalid Timestamps</h3>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Trip ID</th>
+                    <th>Request Time</th>
+                    <th>Pickup Time</th>
+                    <th>Drop Time</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for trip in anomalies.invalid_timestamps %}
+
+                <tr>
+                    <td>{{ trip.trip_id }}</td>
+                    <td>{{ trip.request_time }}</td>
+                    <td>{{ trip.pickup_time }}</td>
+                    <td>{{ trip.drop_time }}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% endif %}
+
+
+        {% if anomalies.long_duration %}
+
+        <h3>Extremely Long Duration</h3>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Trip ID</th>
+                    <th>Duration (minutes)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for trip in anomalies.long_duration %}
+
+                <tr>
+                    <td>{{ trip.trip_id }}</td>
+                    <td>{{ trip.calculate_duration() }}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% endif %}
+
+
+        {% if anomalies.unknown_drivers %}
+
+        <h3>Unknown Drivers</h3>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Trip ID</th>
+                    <th>Driver ID</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for trip in anomalies.unknown_drivers %}
+
+                <tr>
+                    <td>{{ trip.trip_id }}</td>
+                    <td>{{ trip.driver_id }}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% endif %}
+
+
+        {% if anomalies.unusual_fares %}
+
+        <h3>Unusual Fares</h3>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Trip ID</th>
+                    <th>Fare</th>
+                    <th>Distance (km)</th>
+                    <th>Fare / km</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for trip in anomalies.unusual_fares %}
+
+                <tr>
+                    <td>{{ trip.trip_id }}</td>
+                    <td>{{ trip.fare }}</td>
+                    <td>{{ trip.distance_km }}</td>
+                    <td>{{ trip.calculate_fare_per_km() }}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

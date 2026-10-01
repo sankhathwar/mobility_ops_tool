@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Top-K Analysis | Mobility Intelligence</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <a href="/" class="brand">
+                Mobility Intelligence
+            </a>
+
+            <div class="nav-links">
+
+                <a href="/upload">Upload Data</a>
+                <a href="/dashboard">Dashboard</a>
+                <a href="/drivers">Drivers</a>
+                <a href="/top-k">Top-K</a>
+                <a href="/zones">Zones</a>
+                <a href="/cancellations">Cancellations</a>
+                <a href="/utilization">Utilisation</a>
+                <a href="/anomalies">Anomalies</a>
+                <a href="/search">Search</a>
+                <a href="/insights">Insights</a>
+                <a href="/top-k">Top-K</a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Main Content -->
+
+    <div class="container">
+
+        <h1>Top-K Analysis</h1>
+
+        <p>
+            Use priority-queue based analysis to identify
+            the top K drivers, zones and riders.
+        </p>
+
+
+        <!-- K Selection -->
+
+        <div class="section">
+
+            <h2>Analysis Parameter</h2>
+
+            <form method="GET" action="/top-k">
+
+                <label for="k">
+                    Number of results (K):
+                </label>
+
+                <input
+                    type="number"
+                    id="k"
+                    name="k"
+                    value="{{ k }}"
+                    min="1"
+                    max="20"
+                    required
+                >
+
+                <button type="submit">
+                    Analyse
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- =================================================
+             TOP DRIVERS BY COMPLETED TRIPS
+             ================================================= -->
+
+        <div class="section">
+
+            <h2>
+                Top {{ k }} Drivers by Completed Trips
+            </h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Rank</th>
+                        <th>Driver ID</th>
+                        <th>Driver Name</th>
+                        <th>Completed Trips</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for item in top_drivers %}
+
+                    <tr>
+
+                        <td>
+                            {{ loop.index }}
+                        </td>
+
+                        <td>
+                            {{ item.driver.driver_id }}
+                        </td>
+
+                        <td>
+                            {{ item.driver.driver_name }}
+                        </td>
+
+                        <td>
+                            {{ item.completed_trips }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- =================================================
+             TOP DRIVERS BY REVENUE
+             ================================================= -->
+
+        <div class="section">
+
+            <h2>
+                Top {{ k }} Drivers by Revenue
+            </h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Rank</th>
+                        <th>Driver ID</th>
+                        <th>Driver Name</th>
+                        <th>Revenue</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for item in highest_revenue %}
+
+                    <tr>
+
+                        <td>
+                            {{ loop.index }}
+                        </td>
+
+                        <td>
+                            {{ item.driver.driver_id }}
+                        </td>
+
+                        <td>
+                            {{ item.driver.driver_name }}
+                        </td>
+
+                        <td>
+                            ₹{{ item.revenue }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- =================================================
+             TOP ZONES BY DEMAND
+             ================================================= -->
+
+        <div class="section">
+
+            <h2>
+                Top {{ k }} Zones by Demand
+            </h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Rank</th>
+                        <th>Zone</th>
+                        <th>Total Requests</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for item in top_zones_by_demand %}
+
+                    <tr>
+
+                        <td>
+                            {{ loop.index }}
+                        </td>
+
+                        <td>
+                            {{ item.zone }}
+                        </td>
+
+                        <td>
+                            {{ item.requests }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- =================================================
+             TOP ZONES BY CANCELLATIONS
+             ================================================= -->
+
+        <div class="section">
+
+            <h2>
+                Top {{ k }} Zones by Cancellations
+            </h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Rank</th>
+                        <th>Zone</th>
+                        <th>Cancellations</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for item in top_zones_by_cancellations %}
+
+                    <tr>
+
+                        <td>
+                            {{ loop.index }}
+                        </td>
+
+                        <td>
+                            {{ item.zone }}
+                        </td>
+
+                        <td>
+                            {{ item.cancellations }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- =================================================
+             TOP RIDERS
+             ================================================= -->
+
+        <div class="section">
+
+            <h2>
+                Top {{ k }} Riders by Trip Count
+            </h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Rank</th>
+                        <th>Rider ID</th>
+                        <th>Trip Count</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for rider_id, trip_count in top_riders %}
+
+                    <tr>
+
+                        <td>
+                            {{ loop.index }}
+                        </td>
+
+                        <td>
+                            {{ rider_id }}
+                        </td>
+
+                        <td>
+                            {{ trip_count }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

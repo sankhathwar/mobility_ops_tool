@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Driver Utilisation | Mobility Intelligence</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+
+        <a href="/" class="brand">
+            Mobility Intelligence
+        </a>
+
+        <div class="nav-links">
+            <a href="/upload">Upload Data</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/drivers">Drivers</a>
+            <a href="/top-k">Top-K</a>
+            <a href="/zones">Zones</a>
+            <a href="/cancellations">Cancellations</a>
+            <a href="/utilization">Utilisation</a>
+            <a href="/anomalies">Anomalies</a>
+            <a href="/search">Search</a>
+            <a href="/insights">Insights</a>
+        </div>
+
+    </div>
+</nav>
+
+
+<div class="container">
+
+    <h1>Driver Utilisation</h1>
+
+    <p>
+        Analyse driver online hours, busy hours, idle hours,
+        utilisation and consecutive-trip idle periods.
+    </p>
+
+
+    <!-- Driver Selection -->
+
+    <div class="section">
+
+        <h2>Select Driver</h2>
+
+        <form method="GET" action="/utilization">
+
+            <label for="driver_id">
+                Driver:
+            </label>
+
+            <select name="driver_id" id="driver_id" required>
+
+                <option value="">
+                    -- Select Driver --
+                </option>
+
+                {% for driver_id in driver_ids %}
+
+                <option
+                    value="{{ driver_id }}"
+                    {% if selected_driver_id == driver_id %}
+                    selected
+                    {% endif %}
+                >
+                    {{ driver_id }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <label for="threshold">
+                Idle Threshold (minutes):
+            </label>
+
+            <input
+                type="number"
+                name="threshold"
+                id="threshold"
+                value="{{ threshold }}"
+                min="1"
+                required
+            >
+
+            <button type="submit">
+                Analyse
+            </button>
+
+        </form>
+
+    </div>
+
+
+    {% if utilization_data %}
+
+    <!-- Utilisation Metrics -->
+
+    <div class="section">
+
+        <h2>Utilisation Metrics</h2>
+
+        <div class="dashboard-grid">
+
+            <div class="card">
+                <h3>Online Hours</h3>
+                <p>
+                    {{ utilization_data.online_hours }}
+                </p>
+            </div>
+
+
+            <div class="card">
+                <h3>Busy Hours</h3>
+                <p>
+                    {{ utilization_data.busy_hours }}
+                </p>
+            </div>
+
+
+            <div class="card">
+                <h3>Idle Hours</h3>
+                <p>
+                    {{ utilization_data.idle_hours }}
+                </p>
+            </div>
+
+
+            <div class="card">
+                <h3>Utilisation</h3>
+                <p>
+                    {{ utilization_data.utilization }}%
+                </p>
+            </div>
+
+
+            <div class="card">
+                <h3>Classification</h3>
+                <p>
+                    {{ utilization_data.classification }}
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Consecutive Trip Idle Gaps -->
+
+    <div class="section">
+
+        <h2>Consecutive Trip Idle Gaps</h2>
+
+        <p>
+            Idle periods are calculated by sorting the driver's trips
+            chronologically and measuring the gap between consecutive trips.
+        </p>
+
+        <p>
+            Selected threshold:
+            <strong>{{ idle_data.threshold_minutes }} minutes</strong>
+        </p>
+
+
+        {% if idle_data.idle_gaps %}
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Previous Trip</th>
+                    <th>Next Trip</th>
+                    <th>Idle Minutes</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for gap in idle_data.idle_gaps %}
+
+                <tr>
+                    <td>
+                        {{ gap.previous_trip_id }}
+                    </td>
+
+                    <td>
+                        {{ gap.next_trip_id }}
+                    </td>
+
+                    <td>
+                        {{ gap.idle_minutes }}
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <p>
+            No consecutive-trip idle gaps were found for this driver.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- Long Idle Periods -->
+
+    <div class="section">
+
+        <h2>Long Idle Periods</h2>
+
+        <p>
+            <strong>{{ idle_data.long_idle_periods }}</strong>
+            idle periods exceed the selected threshold.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>

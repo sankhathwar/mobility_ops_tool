@@ -1,0 +1,11 @@
+Driver_id,driver_name,city,vehicle_type,rating,status
+D101,Aarav,Bangalore,Sedan,4.8,Active
+D102,Rahul,Bangalore,SUV,4.7,Active
+D103,Neha,Bangalore,Hatchback,4.5,Active
+D104,Arjun,Bangalore,Sedan,4.2,Inactive
+D105,Priya,Bangalore,SUV,4.9,Active
+D106,Karan,Bangalore,Hatchback,3.9,Active
+D107,Meera,Bangalore,Sedan,4.6,Active
+D108,Rohan,Bangalore,SUV,3.8,Inactive
+D109,Ananya,Bangalore,Sedan,4.4,Active
+D110,Vikram,Bangalore,Hatchback,4.1,Active

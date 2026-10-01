@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Upload Data | Mobility Operations Intelligence</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Upload Mobility Data</h1>
+
+    <p>
+        Upload the three required CSV files to validate
+        and analyse a mobility dataset.
+    </p>
+
+    {% if success %}
+
+        <div class="card">
+
+            <h2>Upload Successful</h2>
+
+            <p>
+                All three datasets passed validation successfully.
+            </p>
+
+            <a href="/dashboard" class="button">
+                View Dashboard
+            </a>
+
+        </div>
+
+    {% endif %}
+
+
+    {% if errors %}
+
+        <div class="card">
+
+            <h2>Validation Errors</h2>
+
+            {% for error in errors %}
+
+                <div class="section">
+
+                    <strong>
+                        {{ error.type }}
+                    </strong>
+
+                    {% if error.dataset %}
+                        <p>
+                            Dataset: {{ error.dataset }}
+                        </p>
+                    {% endif %}
+
+                    {% if error.column %}
+                        <p>
+                            Column: {{ error.column }}
+                        </p>
+                    {% endif %}
+
+                    {% if error.count %}
+                        <p>
+                            Count: {{ error.count }}
+                        </p>
+                    {% endif %}
+
+                    <p>
+                        {{ error.message }}
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    <div class="card">
+
+        <h2>Select CSV Files</h2>
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            <div class="section">
+
+                <label>
+                    <strong>Drivers.csv</strong>
+                </label>
+
+                <br>
+
+                <input
+                    type="file"
+                    name="drivers_file"
+                    accept=".csv"
+                    required
+                >
+
+            </div>
+
+
+            <div class="section">
+
+                <label>
+                    <strong>Trips.csv</strong>
+                </label>
+
+                <br>
+
+                <input
+                    type="file"
+                    name="trips_file"
+                    accept=".csv"
+                    required
+                >
+
+            </div>
+
+
+            <div class="section">
+
+                <label>
+                    <strong>Driver_activity.csv</strong>
+                </label>
+
+                <br>
+
+                <input
+                    type="file"
+                    name="activity_file"
+                    accept=".csv"
+                    required
+                >
+
+            </div>
+
+
+            <button type="submit">
+                Validate Dataset
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <br>
+
+    <a href="/" class="button">
+        Back to Home
+    </a>
+
+</div>
+
+</body>
+
+</html>

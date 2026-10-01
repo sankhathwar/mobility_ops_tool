@@ -1,0 +1,21 @@
+Trip_id,driver_id,rider_id,city,pickup_zone,drop_zone,request_time,pickup_time,drop_time,distance_km,fare,status,cancellation_reason
+T1001,D101,R501,Bangalore,Koramangala,Indiranagar,2026-09-28 06:30:00,2026-09-28 06:38:00,2026-09-28 06:58:00,7.2,210,Completed,
+T1002,D102,R502,Bangalore,Whitefield,Marathahalli,2026-09-28 07:10:00,2026-09-28 07:18:00,2026-09-28 07:48:00,10.5,320,Completed,
+T1003,D103,R503,Bangalore,Indiranagar,Koramangala,2026-09-28 08:00:00,2026-09-28 08:07:00,2026-09-28 08:32:00,6.8,195,Completed,
+T1004,D105,R504,Bangalore,Koramangala,HSR Layout,2026-09-28 08:20:00,2026-09-28 08:28:00,2026-09-28 08:58:00,8.4,250,Completed,
+T1005,D106,R505,Bangalore,Electronic City,HSR Layout,2026-09-28 09:00:00,2026-09-28 09:10:00,2026-09-28 09:45:00,12.2,380,Completed,
+T1006,D107,R506,Bangalore,Whitefield,Indiranagar,2026-09-28 10:15:00,2026-09-28 10:25:00,2026-09-28 10:55:00,11.1,340,Completed,
+T1007,D109,R507,Bangalore,HSR Layout,Koramangala,2026-09-28 11:00:00,2026-09-28 11:08:00,2026-09-28 11:35:00,7.5,225,Completed,
+T1008,D110,R508,Bangalore,Indiranagar,Whitefield,2026-09-28 12:00:00,,,5.5,160,Cancelled,Rider Cancelled
+T1009,D102,R509,Bangalore,Koramangala,Indiranagar,2026-09-28 13:15:00,2026-09-28 13:22:00,2026-09-28 13:52:00,8.2,245,Completed,
+T1010,D103,R510,Bangalore,Marathahalli,Whitefield,2026-09-28 14:00:00,,,9.1,275,Cancelled,Driver Cancelled
+T1011,D105,R511,Bangalore,Koramangala,HSR Layout,2026-09-28 15:10:00,2026-09-28 15:18:00,2026-09-28 15:50:00,8.7,260,Completed,
+T1012,D101,R512,Bangalore,Indiranagar,Koramangala,2026-09-28 16:00:00,2026-09-28 16:08:00,2026-09-28 16:36:00,7.9,235,Completed,
+T1013,D106,R513,Bangalore,HSR Layout,Electronic City,2026-09-28 17:30:00,2026-09-28 17:38:00,2026-09-28 18:15:00,13.5,410,Completed,
+T1014,D107,R514,Bangalore,Koramangala,Indiranagar,2026-09-28 18:00:00,,,6.4,190,Cancelled,Payment Issue
+T1015,D109,R515,Bangalore,Whitefield,Marathahalli,2026-09-28 18:30:00,2026-09-28 18:40:00,2026-09-28 19:12:00,9.8,295,Completed,
+T1016,D110,R516,Bangalore,Indiranagar,Koramangala,2026-09-28 19:00:00,2026-09-28 19:07:00,2026-09-28 19:35:00,7.3,220,Completed,
+T1017,D102,R517,Bangalore,Koramangala,HSR Layout,2026-09-28 20:00:00,2026-09-28 20:08:00,2026-09-28 20:45:00,9.2,280,Completed,
+T1018,D103,R518,Bangalore,Electronic City,HSR Layout,2026-09-28 21:15:00,,,11.0,330,Cancelled,Driver Not Found
+T1019,D105,R519,Bangalore,Indiranagar,Koramangala,2026-09-28 21:30:00,2026-09-28 21:38:00,2026-09-28 22:05:00,7.6,230,Completed,
+T1020,D101,R520,Bangalore,Koramangala,Whitefield,2026-09-28 22:00:00,2026-09-28 22:10:00,2026-09-28 22:48:00,14.1,430,Completed,
